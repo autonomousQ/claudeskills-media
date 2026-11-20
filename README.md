@@ -12,3 +12,7 @@ motion-graphics/
 Direct link pattern: `https://raw.githubusercontent.com/autonomousQ/claudeskills-media/main/motion-graphics/<en|zh>/<id>.gif`
 
 GIFs are rendered in claudeskills (2D in the cloud, 3D on the RTX desktop), optimized with `gifsicle -O3 --lossy=60`, then published here by `scripts/publish-gifs.py` in claudeskills.
+
+```
+video-shotcraft/assets/   display-only media of claudeskills/video-shotcraft (README images, QR images); Apache-2.0, from Vincentwei1021/video-shotcraft
+```
