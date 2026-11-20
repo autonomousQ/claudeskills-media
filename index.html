@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>claudeskills · Motion Graphics Gallery</title>
+  <meta name="description" content="Agent-ready Remotion motion-graphics elements for 9:16 · 1080×1920 · 60 fps reels and shorts: 244 elements with 3 s previews, 3D (GPU) elements and 36 style recipes. English and Cantonese (zh-HK) editions.">
+  <meta property="og:title" content="claudeskills · Motion Graphics Gallery">
+  <meta property="og:description" content="244 Remotion MG elements with live previews, 3D (GPU) elements and 36 style recipes for 9:16 reels and shorts.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="site/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="site/styles.css">
+  <script>
+    try { const t = localStorage.getItem('cs-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#grid">Skip to elements</a>
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="Categories" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a class="brand" href="./" aria-label="claudeskills gallery home">
+      <img src="site/logo.svg" alt="" width="28" height="28">
+      <span data-i18n="brand">CLAUDESKILLS · MOTION GRAPHICS</span>
+    </a>
+    <div class="topbar-actions">
+      <button class="pill-btn" id="themeBtn" aria-label="Toggle dark mode">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <span id="themeLabel" data-i18n="dark">Dark</span>
+      </button>
+      <button class="pill-btn" id="langBtn" aria-label="Switch language / edition">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span id="langLabel">繁中</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-heading" data-i18n="categories">Categories</div>
+      <nav id="catNav" aria-label="Categories"></nav>
+      <div class="sidebar-links">
+        <a class="side-link" id="skillLink" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 4h10l4 4v12H5z M15 4v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span data-i18n="skill">Agent entry: SKILL.md</span>
+        </a>
+        <a class="side-link" href="https://github.com/autonomousQ/claudeskills" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c2-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+          <span data-i18n="github">claudeskills on GitHub</span>
+        </a>
+        <a class="side-link" href="https://github.com/autonomousQ/claudeskills/tree/main/video-shotcraft" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h12v12H4zM16 10l4-2v8l-4-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span data-i18n="shotcraft">video-shotcraft (16:9 promos)</span>
+        </a>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim" hidden></div>
+
+    <main class="main">
+      <section class="hero">
+        <div>
+          <h1 id="heroTitle" data-i18n="title">Motion Graphics Elements</h1>
+          <p id="heroLede" data-i18n="lede">Agent-ready Remotion elements for 9:16 · 1080×1920 · 60 fps reels and shorts, inside IG Reels / YT Shorts safe zones. Hover a card to play its 3 s preview, select a few and copy a ready-made prompt for your agent.</p>
+        </div>
+        <dl class="stats" aria-label="Library size">
+          <div><dt data-i18n="statElements">Elements</dt><dd id="statElements">–</dd></div>
+          <div><dt data-i18n="stat3d">3D (GPU)</dt><dd id="stat3d">–</dd></div>
+          <div><dt data-i18n="statStyles">Styles</dt><dd id="statStyles">–</dd></div>
+        </dl>
+      </section>
+
+      <div class="searchbar">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="search" type="search" autocomplete="off" spellcheck="false" aria-label="Search elements" data-i18n-placeholder="search" placeholder="Search names, uses and descriptions…">
+        <kbd>⌘ K</kbd>
+      </div>
+      <div class="result-line"><span id="resultCount"></span><span id="groupChips" class="chips"></span></div>
+
+      <div id="grid" class="grid" aria-live="polite"></div>
+      <p id="empty" class="empty" hidden data-i18n="empty">No elements match. Try another word or category.</p>
+
+      <footer class="footer">
+        <p><span data-i18n="footer">Previews are 270×480 at 15 fps. 3D previews are rendered on an RTX GPU. Elements, docs and code:</span> <a href="https://github.com/autonomousQ/claudeskills" target="_blank" rel="noopener">autonomousQ/claudeskills</a>.</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="selection-bar" id="selBar" hidden>
+    <span class="selection-count" id="selCount"></span>
+    <button class="pill-btn" id="selClear" data-i18n="clear">Clear</button>
+    <button class="pill-btn primary" id="selCopy" data-i18n="copyPrompt">Copy prompt</button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="site/app.js" defer></script>
+</body>
+</html>

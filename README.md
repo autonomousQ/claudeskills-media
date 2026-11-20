@@ -1,5 +1,7 @@
 # claudeskills-media
 
+**Gallery:** https://autonomousq.github.io/claudeskills-media/ (GitHub Pages from this repo's root: `index.html` + `site/`; data built by `claudeskills/motion-graphics/scripts/build-gallery.py`).
+
 Binary media for [autonomousQ/claudeskills](https://github.com/autonomousQ/claudeskills), kept out of that repo so it stays small.
 
 ```
