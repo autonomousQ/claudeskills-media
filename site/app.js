@@ -11,7 +11,7 @@
       empty: 'No elements match. Try another word or category.', clear: 'Clear', copyPrompt: 'Copy prompt',
       footer: 'Previews are 270×480 at 15 fps. 3D previews are rendered on an RTX GPU. Elements, docs and code:',
       all: 'All elements', styles: 'Styles (art directions)', allGroups: 'All', select: 'Select', copy: 'Copy', recipe: 'Skill file',
-      noPreview: 'Preview pending', vertical: 'Vertical', gpu: '3D GPU', results: (n) => `${n} shown`, selected: (n) => `${n} selected`,
+      allTags: 'All tags', tagSrc: 'Source', tagType: 'Type', noPreview: 'Preview pending', vertical: 'Vertical', gpu: '3D GPU', results: (n) => `${n} shown`, selected: (n) => `${n} selected`,
       copied: 'Copied', copiedPrompt: 'Prompt copied', other: 'switch to',
       prompt: (ids, skill) => `Use the motion-graphics skill in autonomousQ/claudeskills (start at ${skill}).\nMake a 9:16, 1080x1920, 60 fps piece that uses these elements, in this order unless the storyboard says otherwise:\n${ids.map((x) => `- ${x}`).join('\n')}\nFollow foundations/pipeline-framework.md: brief, storyboard for my sign-off, edit list, stills critique, then render (finals on the RTX desktop).`,
     },
@@ -23,7 +23,7 @@
       empty: '冇元件啱。試吓第二個字或者分類。', clear: '清除', copyPrompt: '複製提示詞',
       footer: '預覽 270×480，15 fps。3D 預覽係用 RTX GPU 出。元件、文件同程式碼：',
       all: '全部元件', styles: '風格（美術方向）', allGroups: '全部', select: '揀', copy: '複製', recipe: '技能檔',
-      noPreview: '預覽未出', vertical: '直排', gpu: '3D GPU', results: (n) => `顯示 ${n} 款`, selected: (n) => `揀咗 ${n} 款`,
+      allTags: '全部標籤', tagSrc: '來源', tagType: '類型', noPreview: '預覽未出', vertical: '直排', gpu: '3D GPU', results: (n) => `顯示 ${n} 款`, selected: (n) => `揀咗 ${n} 款`,
       copied: '複製咗', copiedPrompt: '提示詞複製咗', other: '轉做',
       prompt: (ids, skill) => `用 autonomousQ/claudeskills 嘅 motion-graphics-zh 技能（由 ${skill} 開始）。\n做一條 9:16、1080x1920、60 fps 嘅片，用以下元件（除非分鏡另有安排，就跟呢個次序）：\n${ids.map((x) => `- ${x}`).join('\n')}\n跟 foundations/pipeline-framework.md：簡報、分鏡等我簽名、剪接表、靜止畫面評片，然後出片（成品喺 RTX 桌機出）。`,
     },
@@ -48,7 +48,7 @@
   const params = new URLSearchParams(location.hash.slice(1));
   const state = {
     lang: params.get('lang') || store.get('cs-lang') || ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en'),
-    cat: params.get('cat') || 'all', group: params.get('group') || '', q: params.get('q') || '', sel: new Set(),
+    cat: params.get('cat') || 'all', group: params.get('group') || '', q: params.get('q') || '', tag: params.get('tag') || '', sel: new Set(),
   };
   if (!['en', 'zh'].includes(state.lang)) state.lang = 'en';
   const t = () => T[state.lang];
@@ -61,6 +61,7 @@
     if (state.cat !== 'all') p.set('cat', state.cat);
     if (state.group) p.set('group', state.group);
     if (state.q) p.set('q', state.q);
+    if (state.tag) p.set('tag', state.tag);
     const h = p.toString();
     history.replaceState(null, '', h ? `#${h}` : location.pathname);
   }
@@ -90,6 +91,13 @@
   }
   function updateThemeLabel() { $('#themeLabel').textContent = isDark() ? t().light : t().dark; }
 
+  function renderTags() {
+    const sel = $('#tagSel'); sel.replaceChildren(el('option', {value: '', text: t().allTags}));
+    const grp = (label, arr) => { if (!arr || !arr.length) return; sel.append(el('optgroup', {label}, arr.map((x) => el('option', {value: x.id, text: `${x.label} (${x.count})`})))); };
+    grp(t().tagSrc, ed().tagSources); grp(t().tagType, ed().tagTypes);
+    sel.value = state.tag;
+    if (sel.value !== state.tag) { state.tag = ''; sel.value = ''; }
+  }
   function renderNav() {
     const nav = $('#catNav'); nav.replaceChildren();
     const els = ed().elements;
@@ -105,9 +113,10 @@
   function matches(e) {
     if (state.cat !== 'all' && e.cat !== state.cat) return false;
     if (state.group && e.group !== state.group) return false;
+    if (state.tag && !(e.tags || []).includes(state.tag)) return false;
     if (!state.q) return true;
     const q = state.q.toLowerCase();
-    return [e.id, e.title, e.desc, e.use, e.cat].some((s) => (s || '').toLowerCase().includes(q));
+    return [e.id, e.title, e.desc, e.use, e.cat, (e.tags || []).join(' ')].some((s) => (s || '').toLowerCase().includes(q));
   }
 
   let io = null;
@@ -223,7 +232,7 @@
       if (ev.key === 'Escape') { if (document.activeElement === s && s.value) { s.value = ''; state.q = ''; render(); } closeMenu(); }
     });
     $('#langBtn').addEventListener('click', () => {
-      state.lang = state.lang === 'en' ? 'zh' : 'en'; store.set('cs-lang', state.lang); state.sel.clear(); applyI18n(); render();
+      state.lang = state.lang === 'en' ? 'zh' : 'en'; store.set('cs-lang', state.lang); state.sel.clear(); applyI18n(); renderTags(); render();
     });
     $('#themeBtn').addEventListener('click', () => {
       const next = isDark() ? 'light' : 'dark'; document.documentElement.dataset.theme = next; store.set('cs-theme', next); updateThemeLabel();
@@ -232,7 +241,8 @@
     $('#scrim').addEventListener('click', closeMenu);
     $('#selClear').addEventListener('click', () => { state.sel.clear(); render(); });
     $('#selCopy').addEventListener('click', () => copy(t().prompt([...state.sel], ed().skill), t().copiedPrompt));
-    applyI18n(); render();
+    $('#tagSel').addEventListener('change', (ev) => { state.tag = ev.target.value; render(); });
+    applyI18n(); renderTags(); render();
   }
 
   fetch('site/data.json').then((r) => r.json()).then((d) => { DATA = d; init(); })
