@@ -19,7 +19,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment3.outputs.page_url || steps.deployment2.outputs.page_url || steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Stage site (gallery + media it references)
         run: |
           mkdir -p _site
@@ -27,24 +27,24 @@ jobs:
           mkdir -p _site/motion-graphics
           cp -r motion-graphics/en motion-graphics/zh _site/motion-graphics/
           du -sh _site
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - name: Wait 15s so the uploaded artifact is visible to deploy-pages
         run: sleep 15
       # deploy-pages sometimes cannot see the just-uploaded artifact ("Found 0 artifact(s)"); retry twice after a pause.
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         continue-on-error: true
       - if: steps.deployment.outcome == 'failure'
         run: sleep 30
       - id: deployment2
         if: steps.deployment.outcome == 'failure'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         continue-on-error: true
       - if: steps.deployment.outcome == 'failure' && steps.deployment2.outcome == 'failure'
         run: sleep 60
       - id: deployment3
         if: steps.deployment.outcome == 'failure' && steps.deployment2.outcome == 'failure'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
