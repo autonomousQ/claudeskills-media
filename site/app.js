@@ -55,6 +55,7 @@
   const ed = () => DATA.editions[state.lang];
   const media = (id, kind) => kind === 'gif' ? `motion-graphics/${state.lang}/${id}.gif` : `motion-graphics/${state.lang}/posters/${id}.webp`;
 
+  const vq = (v) => (v ? `?v=${v}` : '');   // content hash from data.json: cache-busts replaced posters/GIFs
   function syncHash() {
     const p = new URLSearchParams();
     if (state.lang !== 'en') p.set('lang', state.lang);
@@ -135,7 +136,7 @@
     ]);
     let mediaBox;
     if (e.gif) {
-      const poster = e.poster ? media(e.id, 'poster') : media(e.id, 'gif');
+      const poster = e.poster ? media(e.id, 'poster') + vq(e.pv) : media(e.id, 'gif') + vq(e.gv);
       mediaBox = el('div', {class: 'media'}, [
         el('img', {src: poster, alt: `${e.title} preview`, loading: 'lazy', decoding: 'async', width: '270', height: '480'}), badges,
         el('span', {class: 'play', 'aria-hidden': 'true'}),
@@ -157,8 +158,8 @@
       ]),
     ]);
     if (e.gif) {
-      node.dataset.gif = media(e.id, 'gif');
-      if (e.poster) node.dataset.poster = media(e.id, 'poster');
+      node.dataset.gif = media(e.id, 'gif') + vq(e.gv);
+      if (e.poster) node.dataset.poster = media(e.id, 'poster') + vq(e.pv);
       if (hoverable) {
         node.addEventListener('mouseenter', () => play(node, true));
         node.addEventListener('mouseleave', () => play(node, false));
