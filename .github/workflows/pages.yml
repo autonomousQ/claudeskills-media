@@ -31,6 +31,8 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+      - name: Wait 15s so the uploaded artifact is visible to deploy-pages
+        run: sleep 15
       # deploy-pages sometimes cannot see the just-uploaded artifact ("Found 0 artifact(s)"); retry twice after a pause.
       - id: deployment
         uses: actions/deploy-pages@v4
